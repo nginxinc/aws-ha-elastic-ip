@@ -1,0 +1,22 @@
+#!/bin/sh
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+
+STATEFILE=/var/run/nginx-ha-keepalived.state
+
+if [ -s "$STATEFILE" ]; then
+    . "$STATEFILE"
+    case "$STATE" in
+        "BACKUP"|"MASTER"|"FAULT")
+                service nginx status
+                exit $?
+                ;;
+        *|"")
+                logger -t nginx-ha-keepalived "Unknown state: '$STATE'"
+                exit 1
+                ;;
+    esac
+fi
+
+service nginx status
+exit $?
