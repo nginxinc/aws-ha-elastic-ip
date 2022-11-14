@@ -24,7 +24,7 @@ NAME=$2
 STATE=$3
 
 #Determine the internal or private dns name of the instance
-LOCAL_INTERNAL_DNS_NAME=`wget -q -O - http://instance-data/latest/meta-data/local-hostname`
+LOCAL_INTERNAL_DNS_NAME=`wget -q -O - http://169.254.169.254/latest/meta-data/local-hostname`
 LOCAL_INTERNAL_DNS_NAME=`echo $LOCAL_INTERNAL_DNS_NAME | sed -e 's/% //g'`
 
 #OTHER_INSTANCE_DNS_NAME is the other node than this one, default assignment is HA_NODE_1
@@ -37,7 +37,7 @@ then
 fi
 
 #Get the local instance ID
-INSTANCE_ID=`wget -q -O - http://instance-data/latest/meta-data/instance-id`
+INSTANCE_ID=`wget -q -O - http://169.254.169.254/latest/meta-data/instance-id`
 INSTANCE_ID=`echo $INSTANCE_ID | sed -e 's/% //g'`
 
 #Get the instance ID of the other node
